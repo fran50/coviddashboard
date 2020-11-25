@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "dashboardCovid"
+    }
+  },
+  "defaultProject": "dashboardCovid",
+  "cli": {
+    "analytics": false
+  }
 }
