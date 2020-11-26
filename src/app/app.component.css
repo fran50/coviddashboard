@@ -26,5 +26,5 @@
 }
 .centro{
     width: calc(100% - 250px);
-    background-color: red;   
+    /*background-color: red;   */
 }

@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+
+import { formatDate } from '@angular/common';
+import { Component, OnInit} from '@angular/core';
 import { CoviService } from 'src/app/core/servicio/covi.service';
 import { Imundo } from 'src/app/core/servicio/interfaces/imundo';
 
@@ -9,22 +11,33 @@ import { Imundo } from 'src/app/core/servicio/interfaces/imundo';
 })
 export class EspanaComponent implements OnInit {
 
-  constructor(private coviService: CoviService) { }
+  Nfecha=Date();
+  fecha: string;
+
+  constructor(private coviService: CoviService) {
+   
+    this.fecha= formatDate(this.Nfecha,'yyyy-MM-dd','en-US');
+   }
   
   
   Spain:Imundo;
  
  
   ngOnInit(): void {
+    
     this.devuelveSpain();
+    
+  }
+  ngOnChange(){
+    
+    this.fecha= formatDate(this.Nfecha,'yyyy-MM-dd','en-US');
   }
 
-
   devuelveSpain(){
-    this.coviService.getAllMundo()
+    this.coviService.getAllMundo(this.fecha)
     .subscribe(datosmundo =>{
       //let fecha="2020-11-25";
-      this.Spain = datosmundo.dates['2020-11-25'].countries.Spain;
+      this.Spain = datosmundo.dates[this.fecha].countries.Spain;
     })
   }
 }

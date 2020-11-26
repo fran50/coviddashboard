@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MundoRoutingModule } from './mundo-routing.module';
 import { MundoComponent } from './mundo.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ChartsModule } from 'ng2-charts';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
   imports: [
     CommonModule,
     MundoRoutingModule,
-    SharedModule
+    SharedModule,
+    ChartsModule
   ]
 })
 export class MundoModule { }
