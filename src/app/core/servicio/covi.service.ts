@@ -9,9 +9,9 @@ export class CoviService {
 
   constructor(private http: HttpClient) { }
   
-  getAllMundo(fecha:string){
+  getAllMundo(fecha:string, pais: string){
    
-    return this.http.get<any>(`https://api.covid19tracking.narrativa.com/api/${fecha}/country/spain`);
+    return this.http.get<any>(`https://api.covid19tracking.narrativa.com/api/${fecha}/country/${pais}`);
 
   }
 }

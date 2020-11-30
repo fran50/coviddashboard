@@ -34,7 +34,7 @@ export class EspanaComponent implements OnInit {
   }
 
   devuelveSpain(){
-    this.coviService.getAllMundo(this.fecha)
+    this.coviService.getAllMundo(this.fecha,'Spain')
     .subscribe(datosmundo =>{
       //let fecha="2020-11-25";
       this.Spain = datosmundo.dates[this.fecha].countries.Spain;

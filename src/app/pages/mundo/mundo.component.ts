@@ -27,7 +27,7 @@ export class MundoComponent implements OnInit {
   Total:Imundo;
 
   devuelveMundo(){
-    this.coviService.getAllMundo(this.fecha)
+    this.coviService.getAllMundo(this.fecha,'Spain')
     .subscribe(datosmundo =>{
       this.Total = datosmundo.total;
     })
