@@ -1,5 +1,21 @@
-<app-filtro></app-filtro>
+<app-filtro (fechas)="devuelveFechas($event)"></app-filtro>
 <p>mundo España!</p>
 <div>{{fecha | date:'yyyy-MM-dd'}}</div>
 <div>{{fecha}}</div>
 <app-covidh [datos]="Spain"></app-covidh>
+<!--<div>pinpi</div>
+<div *ngFor="let item of entrefechas">
+    {{item.today_new_deaths}}
+</div>-->
+<div class="grafica">
+    <canvas baseChart
+                [datasets]="lineChartData"
+                [labels]="lineChartLabels"
+                [options]="lineChartOptions"
+                [colors]="lineChartColors"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType"
+                [plugins]="lineChartPlugins">
+            </canvas>
+               
+</div>
