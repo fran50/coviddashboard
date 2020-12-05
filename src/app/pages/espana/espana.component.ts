@@ -1,6 +1,6 @@
 
 import { formatDate } from '@angular/common';
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ChartDataSets } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
 import { CoviService } from 'src/app/core/servicio/covi.service';
@@ -13,88 +13,113 @@ import { Imundo } from 'src/app/core/servicio/interfaces/imundo';
 })
 export class EspanaComponent implements OnInit {
 
-  Nfecha=Date();
+  Nfecha = Date();
   fecha: string;
 
   constructor(private coviService: CoviService) {
-   
-    this.fecha= formatDate(this.Nfecha,'yyyy-MM-dd','en-US');
-   }
-  
-  
-  Spain:Imundo;
-  entrefechas: Imundo[]=[];
- 
-  listado=[];
 
-  listado2=["2","3","5"];
+    this.fecha = formatDate(this.Nfecha, 'yyyy-MM-dd', 'en-US');
+  }
 
-  datos=[0,2,3,4,5,6];
+
+  Spain: Imundo;
+  entrefechas: Imundo[] = [];
+
+  listado = [];
+
+  listado2 = ["2", "3", "5"];
+
+  datos = [0, 2, 3, 4, 5, 6];
 
   ngOnInit(): void {
-    
+
     this.devuelveSpain();
-    
+
   }
-  ngOnChange(){
-    
-    this.fecha= formatDate(this.Nfecha,'yyyy-MM-dd','en-US');
+  ngOnChange() {
+
+    this.fecha = formatDate(this.Nfecha, 'yyyy-MM-dd', 'en-US');
   }
 
-  devuelveSpain(){
-    this.coviService.getAllMundo(this.fecha,'Spain')
-    .subscribe(datosmundo =>{
-      //let fecha="2020-11-25";
-      this.Spain = datosmundo.dates[this.fecha].countries.Spain;
-    })
-  }
-    devuelveFechas(fechas: any){
-      
-      this.coviService.getAllFechas(fechas.fechaAnterior,fechas.fechaPosterior,'Spain')
-      .subscribe(datosmundo =>{
+  devuelveSpain() {
+    this.coviService.getAllMundo(this.fecha, 'Spain')
+      .subscribe(datosmundo => {
         //let fecha="2020-11-25";
-       // let listado= Array;
+        this.Spain = datosmundo.dates[this.fecha].countries.Spain;
+      })
+  }
+  devuelveFechas(fechas: any) {
+
+    this.coviService.getAllFechas(fechas.fechaAnterior, fechas.fechaPosterior, 'Spain')
+      .subscribe(datosmundo => {
+        //let fecha="2020-11-25";
+        // let listado= Array;
         this.listado = datosmundo.dates;
-        for (let x=0; x<fechas.lista.length;x++){
-        this.entrefechas[x]=this.listado[fechas.lista[x]].countries.Spain;
-         // console.log(this.listado[fechas.lista[x]].countries.Spain);  
+        this.entrefechas.length = 0;
+        for (let x = 0; x < fechas.lista.length; x++) {
+          this.entrefechas[x] = this.listado[fechas.lista[x]].countries.Spain;
+          // console.log(this.listado[fechas.lista[x]].countries.Spain);  
         }
-     //   console.log(this.entrefechas);
-      
-        this.cargaGraficas();
+        //   console.log(this.entrefechas);
+        fechas.fe
+        let misdatos = [];
+        misdatos = this.cargaGraficas();
+        this.actualizarGraficas(fechas.lista, misdatos);
       })
   }
   //datos: Array<number>=[];
-    cargaGraficas(){
-      let longitud = this.datos.length;
-      this.datos.splice(0,longitud);
-      for (let x=0; x<this.entrefechas.length;x++){
-        this.datos.push(this.entrefechas[x].today_new_deaths);
-        
-      }
-     console.log(this.datos);
+  cargaGraficas() {
+    // let longitud = this.datos.length;
+    // this.datos.splice(0, longitud);
+    let misdatosM = [];
+    let misdatosR = [];
+    let misdatosI = [];
+    for (let x = 0; x < this.entrefechas.length; x++) {
+      misdatosM.push(this.entrefechas[x].today_new_deaths);
+      misdatosR.push(this.entrefechas[x].today_new_recovered);
+      misdatosI.push(this.entrefechas[x].today_new_confirmed);
+
     }
+    console.log(misdatosM);
+    return misdatosM;
+    //this.lineChartLabels[0].Label = this.datos;
+  }
+  actualizarGraficas(fechas: Array<string>, misdatosM: Array<number>) {
+    this.lineChartLabels = fechas;
+    this.lineChartData[2].data = misdatosM;
+  }
   /// graficas ///
-lineChartData: ChartDataSets[]=[
-  { data: this.datos,
-    label: 'Numero de Recuperados'}
+  lineChartData: ChartDataSets[] = [
+    {
+      data: [100, 200, 300, 400, 500, 600, 700],
+      label: 'Recuperados'
+    },
+    {
+      data: [10, 20, 30, 40, 50, 60, 70],
+      label: 'Infectados'
+    },
+    {
+      data: [30, 20, 500, 300, 200, 200, 500],
+      label: 'Muertos'
+    }
   ];
 
-lineChartLabels: Label[] = ['Enero','Febrero','Marzo','Abril','Mayo','Junio'];
+  lineChartLabels: Label[] = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'];
 
-lineChartOptions = {
-  responsive:true,};
+  lineChartOptions = {
+    responsive: true,
+  };
 
-lineChartColors: Color[] =[
-  {
-    borderColor:'black',
-    backgroundColor:'rgba(255,255,0,1)',
-  },
-];
+  lineChartColors: Color[] = [
+    {
+      borderColor: 'black',
+      backgroundColor: 'rgba(255,255,0,1)',
+    },
+  ];
 
-lineChartLegend= true;
-lineChartPlugins=[];
-lineChartType= 'line';
+  lineChartLegend = true;
+  lineChartPlugins = [];
+  lineChartType = 'line';
 
 
 
