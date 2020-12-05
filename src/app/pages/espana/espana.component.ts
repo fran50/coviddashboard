@@ -62,7 +62,7 @@ export class EspanaComponent implements OnInit {
         }
         //   console.log(this.entrefechas);
         fechas.fe
-        let misdatos = [];
+        let misdatos: Array<any>;
         misdatos = this.cargaGraficas();
         this.actualizarGraficas(fechas.lista, misdatos);
       })
@@ -71,22 +71,29 @@ export class EspanaComponent implements OnInit {
   cargaGraficas() {
     // let longitud = this.datos.length;
     // this.datos.splice(0, longitud);
-    let misdatosM = [];
-    let misdatosR = [];
-    let misdatosI = [];
+    let misdatos = [{
+      misdatosM: [],
+      misdatosR: [],
+      misdatosI: []
+    }]
+    //let misdatosM = [];
+    //let misdatosR = [];
+    //let misdatosI = [];
     for (let x = 0; x < this.entrefechas.length; x++) {
-      misdatosM.push(this.entrefechas[x].today_new_deaths);
-      misdatosR.push(this.entrefechas[x].today_new_recovered);
-      misdatosI.push(this.entrefechas[x].today_new_confirmed);
+      misdatos[0].misdatosM.push(this.entrefechas[x].today_new_deaths);
+      misdatos[0].misdatosR.push(this.entrefechas[x].today_new_recovered);
+      misdatos[0].misdatosI.push(this.entrefechas[x].today_new_confirmed);
 
     }
-    console.log(misdatosM);
-    return misdatosM;
+    console.log(misdatos);
+    return misdatos;
     //this.lineChartLabels[0].Label = this.datos;
   }
-  actualizarGraficas(fechas: Array<string>, misdatosM: Array<number>) {
+  actualizarGraficas(fechas: Array<string>, misdatos: Array<any>) {
     this.lineChartLabels = fechas;
-    this.lineChartData[2].data = misdatosM;
+    this.lineChartData[2].data = misdatos[0].misdatosM;
+    this.lineChartData[0].data = misdatos[0].misdatosR;
+    this.lineChartData[1].data = misdatos[0].misdatosI;
   }
   /// graficas ///
   lineChartData: ChartDataSets[] = [
