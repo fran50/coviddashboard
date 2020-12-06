@@ -30,6 +30,7 @@ export class EspanaComponent implements OnInit {
   listado2 = ["2", "3", "5"];
 
   datos = [0, 2, 3, 4, 5, 6];
+  bandera = false;
 
   ngOnInit(): void {
 
@@ -49,7 +50,7 @@ export class EspanaComponent implements OnInit {
       })
   }
   devuelveFechas(fechas: any) {
-
+    this.bandera = true;
     this.coviService.getAllFechas(fechas.fechaAnterior, fechas.fechaPosterior, 'Spain')
       .subscribe(datosmundo => {
         //let fecha="2020-11-25";
@@ -65,6 +66,7 @@ export class EspanaComponent implements OnInit {
         let misdatos: Array<any>;
         misdatos = this.cargaGraficas();
         this.actualizarGraficas(fechas.lista, misdatos);
+        this.bandera = false;
       })
   }
   //datos: Array<number>=[];
